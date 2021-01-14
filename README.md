@@ -1,4 +1,4 @@
-# vue-shop
+# adc
 
 ## Project setup
 ```
