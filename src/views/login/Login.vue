@@ -15,6 +15,7 @@
         <!-- 用户名 -->
         <el-form-item class="username" prop="username">
           <el-input v-model="loginForm.username"
+          prefix-icon="fa fa-user"
           type="text"
           placeholder ="用户名"></el-input>
         </el-form-item>
@@ -22,6 +23,7 @@
         <!-- 密码 -->
         <el-form-item class="password" prop="password">
           <el-input v-model="loginForm.password"
+          prefix-icon="fa fa-unlock-alt"
           type="password"
           placeholder ="密码"></el-input>
         </el-form-item>
@@ -67,11 +69,11 @@
       login(){
         this.$refs.loginFormRef.validate(async valid => {
           if(!valid) return;
+          // const {data:res} = await this.$http.post("login",this.loginForm)
           const res = await this.$http.post("login",this.loginForm)
           // if(res.meta.status !== 200) return this.$message.error("登录失败!");
-          if(res.status !== 200)  alert("登录失败!");
-          // this.$message.success("登录成功!");
-          alert("登录成功!");
+          if(res.status !== 200)  this.$message.error("登录失败!");
+          this.$message.success("登录成功!");
           
           // 将token保存在sessionStorage中
           // window.sessionStorage.setItem("token",res.data.token)
@@ -122,7 +124,6 @@
         .username, .password{
           position: relative;
           margin: 15px 0;
-          left: 120px;
         }
 
         .btns{
