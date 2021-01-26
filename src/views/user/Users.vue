@@ -50,7 +50,7 @@
             </el-tooltip>
             <!-- 分配角色按钮 -->
             <el-tooltip effect="dark" content="分配角色" placement="top" :enterable="false">
-              <el-button type="warning" icon="el-icon-setting" size="mini"></el-button>
+              <el-button type="warning" icon="el-icon-setting" size="mini" @click="setRole(scope.row)"></el-button>
             </el-tooltip>
           </template>
         </el-table-column>
@@ -123,6 +123,31 @@
       <span slot="footer" class="dialog-footer">
         <el-button @click="editDialogVisible = false">取消</el-button>
         <el-button type="primary" @click="editDialogVisible = false">确认</el-button>
+      </span>
+    </el-dialog>
+
+    <!-- 分配角色的对话框 -->
+    <el-dialog title="分配角色"
+      :visible.sync="setRoleDialogVisible"
+      width="50%"
+      @close="setRoleDialogClosed">
+      <div>
+        <p>当前的用户：{{userInfo.username}}</p>
+        <p>当前的角色：{{userInfo.roleName}}</p>
+        <p>分配新角色：
+          <el-select v-model="selectedRoleId" placeholder="请选择">
+            <el-option
+              v-for="item in rolesList"
+              :key="item.id"
+              :label="item.roleName"
+              :value="item.id">
+            </el-option>
+          </el-select>
+        </p>
+      </div>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="setRoleDialogVisible = false">取消</el-button>
+        <el-button type="primary" @click="saveRoleInfo">确认</el-button>
       </span>
     </el-dialog>
   </div>
@@ -283,7 +308,214 @@
               trigger: "blur"
             }
           ]
-        }
+        },
+        // 控制分配角色对话框的显示与隐藏
+        setRoleDialogVisible: false,
+        // 需要被分配角色的用户信息？
+        userInfo: {},
+        // 所有角色的数据列表
+        rolesList: [
+          {
+            id: 301,
+            roleName: "主管",
+            roleDesc: "技术负责人",
+            children: [
+              {
+                "id": 101,
+                "authName": "商品管理",
+                "path": null,
+                "children": [
+                  {
+                    "id": 102,
+                    "authName": "商品列表",
+                    "path": null,
+                    "children": [
+                      {
+                        "id": 1021,
+                        "authName": "商品修改",
+                        "path": null
+                      }
+                    ]
+                  },
+                  {
+                    "id": 104,
+                    "authName": "分类参数",
+                    "path": null,
+                    "children": [
+                      {
+                        "id": 1041,
+                        "authName": "获取参数列表",
+                        "path": null
+                      },
+                      {
+                        "id": 1042,
+                        "authName": "创建商品参数",
+                        "path": null
+                      },
+                      {
+                        "id": 1043,
+                        "authName": "删除商品参数",
+                        "path": null
+                      }
+                    ]
+                  },
+                  {
+                    "id": 105,
+                    "authName": "商品分类",
+                    "path": null,
+                    "children": [
+                      {
+                        "id": 1051,
+                        "authName": "添加分类",
+                        "path": null
+                      },
+                      {
+                        "id": 1052,
+                        "authName": "删除分类",
+                        "path": null
+                      },
+                      {
+                        "id": 1053,
+                        "authName": "获取分类详情",
+                        "path": null
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+               "id": 110,
+                "authName": "用户管理",
+                "path": null,
+                "children": [
+                  {
+                    "id": 111,
+                    "authName": "用户列表",
+                    "path": null,
+                    "children": []
+                  }
+                ]
+              },
+              {
+                "id": 120,
+                "authName": "订单管理",
+                "path": null,
+                "children": [
+                  {
+                    "id": 121,
+                    "authName": "订单列表",
+                    "path": null,
+                    "children": []
+                  }
+                ]
+              },
+              {
+                "id": 130,
+                "authName": "权限管理",
+                "path": null,
+                "children": [
+                  {
+                    "id": 131,
+                    "authName": "角色列表",
+                    "path": null,
+                    "children": []
+                  },
+                  {
+                    "id": 132,
+                    "authName": "权限列表",
+                    "path": null,
+                    "children": []
+                  }
+                ]
+              },
+              {
+                "id": 140,
+                "authName": "数据统计",
+                "path": null,
+                "children": []
+              }
+            ]
+          },
+          {
+            id: 302,
+            roleName: "测试角色",
+            roleDesc: "测试",
+            children: [
+              {
+                "id": 101,
+                "authName": "商品管理",
+                "path": null,
+                "children": [
+                  {
+                    "id": 102,
+                    "authName": "商品列表",
+                    "path": null,
+                    "children": [
+                      {
+                        "id": 103,
+                        "authName": "添加商品",
+                        "path": null
+                       }
+                    ]
+                  }
+                ]
+              },
+              {
+               "id": 110,
+                "authName": "用户管理",
+                "path": null,
+                "children": [
+                  {
+                    "id": 111,
+                    "authName": "用户列表",
+                    "path": null,
+                    "children": []
+                  }
+                ]
+              },
+              {
+                "id": 120,
+                "authName": "订单管理",
+                "path": null,
+                "children": [
+                  {
+                    "id": 121,
+                    "authName": "订单列表",
+                    "path": null,
+                    "children": []
+                  }
+                ]
+              },
+              {
+                "id": 130,
+                "authName": "权限管理",
+                "path": null,
+                "children": [
+                  {
+                    "id": 131,
+                    "authName": "角色列表",
+                    "path": null,
+                    "children": []
+                  },
+                  {
+                    "id": 132,
+                    "authName": "权限列表",
+                    "path": null,
+                    "children": []
+                  }
+                ]
+              },
+              {
+                "id": 140,
+                "authName": "数据统计",
+                "path": null,
+                "children": []
+              }
+            ]
+          }
+        ],
+        // 已选中角色的id值
+        selectedRoleId: ''
       }
     },
     created(){
@@ -403,6 +635,39 @@
         this.$message.success('删除用户成功!')
         // 刷新用户列表数据
         this.getUserList()
+      },
+      // 展示分配角色的对话框
+      async setRole(userInfo){
+        this.userInfo = userInfo
+
+        // 展开对话框之前，获取所有角色的列表
+        const {data:res} = await this.$http.get('roles')
+        if(res.meta.status !== 200){
+          // return this.$message.error('获取用户列表失败!')
+        }
+        // this.rolesList = res.data
+        this.setRoleDialogVisible = true
+      },
+      // 点击按钮分配角色
+      async saveRoleInfo(){
+        if(!this.selectedRoleId){
+          return this.$message.error('请选择要分配的角色！')
+        }
+
+        const {data:res} = await this.$http.put(`users/${this.userInfo.id}/role`,
+        {rid: this.selectedRoleId})
+
+        if(res.meta.status !== 200){
+          // return this.$message.error('更新角色失败!')
+        }
+        this.$message.success('更新角色成功!')
+        this.getUserList()
+        this.setRoleDialogVisible = false
+      },
+      // 监听分配角色对话框的关闭事件
+      setRoleDialogClosed(){
+        this.selectedRoleId = ''
+        this.userInfo = {}
       }
     }
   }

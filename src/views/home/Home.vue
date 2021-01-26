@@ -84,7 +84,7 @@
               {
                 id: 1030,
                 authName: '角色列表',
-                path: "rights",
+                path: "roles",
                 pid: 0,
                 children: []
               },
