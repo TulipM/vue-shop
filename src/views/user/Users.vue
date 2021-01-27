@@ -362,7 +362,7 @@
                   {
                     "id": 105,
                     "authName": "商品分类",
-                    "path": null,
+                    "path": "/cate",
                     "children": [
                       {
                         "id": 1051,

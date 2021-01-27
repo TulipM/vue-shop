@@ -6,6 +6,7 @@ import axios from 'axios'
 import  'element-ui/lib/theme-chalk/index.css'
 // import './plugins/element.js'
 import ElementUI from 'element-ui' // 全局导入 elementUI
+import './plugins/treeTable.js' // 导入树形插件
 import 'assets/css/global.css'  // 导入全局样式表
 import 'assets/css/font-awesome-4.7.0/css/font-awesome.css' // 导入图标字体
 
